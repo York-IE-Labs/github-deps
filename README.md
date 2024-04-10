@@ -24,17 +24,14 @@ echo "GITHUB_API_KEY=your_github_api_key" > .env
 
 1. Update `config.json` with the organization and list of repos you want to list dependencies for.
 
-   ````json
+   ```json
    {
-   "organization": "your_organization",
-   "repos": [
-      "repo1",
-      "repo2"
-   ]
+     "organization": "your_organization",
+     "repos": ["repo1", "repo2"]
    }
    ```
 
-   ````
+   > NOTE: Be sure the repos you want to list dependencies for are public or you have access to them and they have the [dependency graph enabled](https://docs.github.com/en/code-security/supply-chain-security/understanding-your-software-supply-chain/configuring-the-dependency-graph)
 
 2. Run the script
 
