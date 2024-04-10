@@ -1,0 +1,10 @@
+certifi==2024.2.2
+charset-normalizer==3.3.2
+diskcache==5.6.3
+idna==3.6
+python-dotenv==1.0.1
+PyYAML==6.0.1
+requests==2.31.0
+tomark==0.1.4
+urllib3==2.2.1
+xkcd2347==0.0.4
