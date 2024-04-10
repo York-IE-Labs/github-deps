@@ -1,4 +1,5 @@
 {
   "organization": "York-IE-Labs",
-  "repos": ["github-deps"]
+  "repos": ["github-deps"],
+  "fetchMetrics": false
 }

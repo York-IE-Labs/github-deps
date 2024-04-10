@@ -2,6 +2,7 @@ import xkcd2347
 import json
 from tomark import Tomark
 import os
+import requests
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -15,6 +16,11 @@ if GITHUB_API_KEY is None:
    print("No GitHub API key found. Please add it to your .env file")
    exit()
 
+# Create requests session
+client = requests.Session()
+client.headers.update({'Accept': 'application/vnd.github+json', 'Authorization': f'Bearer {GITHUB_API_KEY}', 'X-GitHub-Api-Version': '2022-11-28'})
+
+
 # Create GitHub object
 gh = xkcd2347.GitHub(key=GITHUB_API_KEY)
 
@@ -25,6 +31,7 @@ data = json.load(f)
 # Get config values
 REPOS = data['repos']
 ORGANIZATION = data['organization']
+FETCH_METRICS = data['fetchMetrics']
 dependencies = []
 dependencyMap = {}
 
@@ -44,12 +51,14 @@ for repo in REPOS:
          dependencyMap[nameWithOwner] = {
                'package': dep['packageName'],
                'github': f'[{nameWithOwner}](https://github.com/{nameWithOwner})',
+               'nameWithOwner': nameWithOwner,
                'version': dep['requirements'],
                'repos': []
             }
       
       # If not already added to repos
       if repo not in dependencyMap[nameWithOwner]['repos']:
+         # Add repo to list
          dependencyMap[nameWithOwner]['repos'].append(repo)
 
 # Create a list of dependencies
@@ -58,13 +67,32 @@ for key in dependencyMap:
    repos = dependencyMap[key]['repos']
    reposStr = ', '.join([f'`{r}`' for r in repos])
 
-   # Add to list
-   dependencies.append({
+   dependency = {
          'Package': dependencyMap[key]['package'],
          'Github Link': dependencyMap[key]['github'],
          'Version': f"`{dependencyMap[key]['version']}`",
          'Org Repos': reposStr
-      })
+      }
+
+   if nameWithOwner == "No git repo found" or not FETCH_METRICS:
+      # Add to list
+      dependencies.append(dependency)
+      continue
+   
+   try:
+      # Get the repo details via HTTP request
+      response = client.get(f"https://api.github.com/repos/{dependencyMap[key]['nameWithOwner']}")
+
+      # Get created_at, updated_at, pushed_at, stargazers_count, and open_issues_count and add them to 'repo'
+      repoDetails = response.json()
+      dependency['Last Push'] = repoDetails.get('pushed_at', '-')[0:10]
+      dependency['Stars'] = repoDetails.get('stargazers_count', '-')
+      dependency['Open Issues'] = repoDetails.get('open_issues_count', '-')
+   except:
+      print(f"Error getting repo details for {nameWithOwner}")
+   
+   # Add to list
+   dependencies.append(dependency)
 
 # Sort dependencies by package name
 sortedDeps = sorted(dependencies, key=lambda d: d['Package'])
