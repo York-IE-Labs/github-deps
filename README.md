@@ -43,3 +43,17 @@ echo "GITHUB_API_KEY=your_github_api_key" > .env
 3. View the output
 
    View the output in `deps.md` as a markdown formatted table.
+
+   **Sample output for this repository:**
+   | Package | Github Link | Version | Stellar Menu Repos |
+   |-----|-----|-----|-----|
+   | certifi | [certifi/python-certifi](https://github.com/certifi/python-certifi) | `= 2024.2.2` | `github-deps` |
+   | charset-normalizer | [Ousret/charset_normalizer](https://github.com/Ousret/charset_normalizer) | `= 3.3.2` | `github-deps` |
+   | diskcache | [Baughn/python-diskcache](https://github.com/Baughn/python-diskcache) | `= 5.6.3` | `github-deps` |
+   | idna | [kjd/idna](https://github.com/kjd/idna) | `= 3.6` | `github-deps` |
+   | python-dotenv | [theskumar/python-dotenv](https://github.com/theskumar/python-dotenv) | `= 1.0.1` | `github-deps` |
+   | pyyaml | [yaml/pyyaml](https://github.com/yaml/pyyaml) | `= 6.0.1` | `github-deps` |
+   | requests | [psf/requests](https://github.com/psf/requests) | `= 2.31.0` | `github-deps` |
+   | tomark | [codazoda/tomark](https://github.com/codazoda/tomark) | `= 0.1.4` | `github-deps` |
+   | urllib3 | [urllib3/urllib3](https://github.com/urllib3/urllib3) | `= 2.2.1` | `github-deps` |
+   | xkcd2347 | [edsu/xkcd2347](https://github.com/edsu/xkcd2347) | `= 0.0.4` | `github-deps` |
